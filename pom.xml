@@ -1,20 +1,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-      <groupId>com.github.playero1.simplegrapg</groupId>
-      <artifactId>simplegrapg</artifactId>
+      <groupId>com.github.playero1.simplegraph</groupId>
+      <artifactId>simplegraph</artifactId>
       <version>0.0.1</version>
       <packaging>jar</packaging>
 
       <!-- More project information -->
       <name>Simplegraph </name>
       <description>Lightweight graph library. Memory optimized graph implementation.</description>
-      <!--<licenses>GNU Lesser General Public License 2.1</licenses>-->
-     <!-- <developers>...</developers>
+      <!--<licenses>GNU GPL v2</licenses>-->
+     <!-- <developers>github.com/playerO1</developers>
       <contributors>...</contributors> -->
       
       <dependencies>
             <dependency>
-                <!-- required only for PrimitiveGraph class. Should I use <optional>true</optional>? -->
                 <groupId>net.sf.trove4j</groupId>
                 <artifactId>trove4j</artifactId>
                 <version>3.0.3</version>
@@ -29,11 +28,11 @@
       </dependencies>
      
       <!-- Build Settings -->
-  <properties>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
-  </properties>
-    <build>
+      <properties>
+          <maven.compiler.source>1.7</maven.compiler.source>
+          <maven.compiler.target>1.7</maven.compiler.target>
+      </properties>
+      <build>
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -41,11 +40,11 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.8.1</version>
                     <!--<configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-          </configuration>-->
+                       <source>1.7</source>
+                       <target>1.7</target>
+                    </configuration>-->
                 </plugin>
             </plugins>
         </pluginManagement>
-    </build>
+      </build>
 </project>
