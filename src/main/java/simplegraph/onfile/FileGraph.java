@@ -21,7 +21,7 @@ import simplegraph.ITrimToSize;
  */
 public class FileGraph<T> implements ISimpleGraph<T>, ITrimToSize, Closeable, FileGraphMBean{
     //final static Logger log=LoggerFactory.getLogger(FileGraph.class);
-    public final static int MAX_OPEN_FILE = 1200; // fixme OS limit open file!!! /etc/secure/limits.conf
+    public final static int MAX_OPEN_FILE = 1200; // For watchout OS limit open file. See Linux /etc/secure/limits.conf.
     
     protected final File workPath;
     // mapping external key

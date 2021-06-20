@@ -11,7 +11,7 @@ import simplegraph.ISimpleGraph;
  * 
  * Thanks https://stackoverflow.com/questions/17480022/java-find-shortest-path-between-2-points-in-a-distance-weighted-map
  * 
- * @author user2
+ * @author A.K.(github.com/playerO1) and same code from stackoverflow
  */
 public class SimpleGraph<T> implements ISimpleGraph<T>{
     // mapping external key

@@ -18,7 +18,7 @@ import simplegraph.IVertex;
 
 /**
  * Draw graph link
- * @author user2
+ * @author A.K.
  */
 public class GraphVisualizator {
     //Logger log=LoggerFactory.getLogger(this.getClass());

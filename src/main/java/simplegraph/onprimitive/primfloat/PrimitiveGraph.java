@@ -14,7 +14,7 @@ import simplegraph.ITrimToSize;
  * 
  * Thanks https://stackoverflow.com/questions/17480022/java-find-shortest-path-between-2-points-in-a-distance-weighted-map
  * 
- * @author user2
+ * @author A.K.(github.com/playerO1)
  */
 public class PrimitiveGraph<T> implements ISimpleGraph<T>, ITrimToSize{
     // mapping external key

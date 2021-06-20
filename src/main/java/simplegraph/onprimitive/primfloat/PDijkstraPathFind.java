@@ -11,7 +11,7 @@ import simplegraph.exception.PathNotFoundException;
 /**
  * 
  * Based on  https://stackoverflow.com/questions/17480022/java-find-shortest-path-between-2-points-in-a-distance-weighted-map
- * @author ?
+ * @author A.K. and part of code from stackoverflow.com
  */
 public class PDijkstraPathFind<T> implements IPathFinder<T>{
     public final PrimitiveGraph<T> graph;

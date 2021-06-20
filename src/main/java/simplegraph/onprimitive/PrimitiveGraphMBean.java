@@ -2,7 +2,7 @@ package simplegraph.onprimitive;
 
 /**
  * For real time debug MBean interface
- * @author user2
+ * @author A.K. (github.com/playerO1)
  */
 public interface PrimitiveGraphMBean {
     String getName();
