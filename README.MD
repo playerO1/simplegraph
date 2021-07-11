@@ -14,7 +14,7 @@ Have 2 implementation:
 
 Library mission
 ---------------
-To be **faster**, **low memory** required, and **simple** graph implementation for Java. Work with *big graph* in single personal computer.
+To be **faster**, **low memory** required, and **simple** graph implementation for Java. Use Djkstra path find. Work with *big graph* in single personal computer.
 
 Compare with another Java graph library
 ---------------------------------------
@@ -23,6 +23,7 @@ This comparsion I do at 2020-2021 year.
 * Hipster (1.0.1, https://citius.usc.es/transferencia/software/hipster4j) - "Hipster: An Open Source Java Library for Heuristic Search", in-memory graph. Too many features and huge implementation - required a lot of memory. Not have file-storage.
 * apache-common-graph (?, https://commons.apache.org/sandbox/commons-graph) - not have math path (Djikstra), or I not found it. Library not complite. In memory. Not have file-storage.
 * Guava (28.0, https://github.com/google/guava) - have in-memory implementation of direction and bi-direction graph. Have path find implementation on class Traverser. I do not undestand at first time he's API, it might be not safe memory too. Not have file-storage.
+* jgrapht.org  don't know about it... TODO learn.
 
 
 ---------------------------------------
@@ -147,6 +148,14 @@ WARNING: for debugging I do not clear temp file, for large graph it can be probl
 ### Extra use-case
 See *DijkstraPathFind implementation for iterate details.
 
+Using usefull GraphUtil class:
+        
+        ISimpleGraph<String> graph=...add data to graph...
+        System.out.println(GraphUtil.toString(graph));
+        // Console output:
+        // A[B=1.0; B=1.0; C=15.4]; B[C=4.32]; C[B=6.0]
+
+
 Iterate over vertex and edge's:
 
     ISimpleGraph<String> graph=...
@@ -213,7 +222,7 @@ For future feature.
 1.0.0
 
 - JavaDoc
-- may be rewrite same class and change license on GNU LGPL.
+- may be rewrite same class and change license on GNU LGPL (see using sources under GNU GPL v2 restriction).
 - ...
 
 0.1.4
@@ -228,12 +237,17 @@ For future feature.
 - Split graph implementation from ISimpleGraph<Object> to ISimpleGraph<Object> wrapper ower IntegerGraph<int>. IntegerGraph should be ultimate faster API, more CPU-friendly, It was implemented by PrimitiveGraph and FileGraph.
 - new API: IVertex.addEdge() - should be fast; findEdge(IVertex to), removeEdge(IVertex to), setEdge(IVertex to, double newW). May be not fast.
 
-0.0.2
+0.0.3+ (future)
 
-- Util - copy one graph to other, for clone and save to file. Implement toString(), usefull simple util.
 - full implement Iterator, Iterable interface (check interface, may be enought for java 1.7)
 - FileGraph: support load graph from exist files (full support save/load)
 - more unit test.
+
+0.0.2 (current)
+
+- Util - copy one graph to other, for clone and save to file. Implement toString().
+- (todo) add method addEdge into IVertex<T>, it should improvement perfomance for manual graph build
+- (todo) rename library and packages from "simplegraph" to "simplegraph4j" - it was a more unusual library name, representation that it was best optimize only for Java implementation.
 
 0.0.1
 

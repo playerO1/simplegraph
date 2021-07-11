@@ -14,9 +14,6 @@ import simplegraph.ITrimToSize;
 /**
  * Primitive graph with simple Dijkstra path search implementation
  * 
- * 
- * Thanks https://stackoverflow.com/questions/17480022/java-find-shortest-path-between-2-points-in-a-distance-weighted-map
- * 
  * @author A.K.(github.com/playerO1)
  */
 public class PrimitiveGraph<T> implements ISimpleGraph<T>, ITrimToSize, Closeable, PrimitiveGraphMBean{
@@ -89,7 +86,11 @@ public class PrimitiveGraph<T> implements ISimpleGraph<T>, ITrimToSize, Closeabl
         for (PrimitiveVertex v:getAllVertex()) v.clear();
     }
 
-    //todo to string
+    /* todo toString() using for MBeans. It should be unical as super.toString() without data
+    @Override
+    public String toString() {
+        return "PrimitiveGraph{" + GraphUtil.toString(this) + '}';
+    }*/
 
     @Override
     public IPathFinder<T> pathFinder() {

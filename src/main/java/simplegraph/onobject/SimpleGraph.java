@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import simplegraph.IPathFinder;
 import simplegraph.ISimpleGraph;
+import simplegraph.util.GraphUtil;
 
 /**
  * Primitive graph with simple Dijkstra path search implementation
@@ -59,7 +60,10 @@ public class SimpleGraph<T> implements ISimpleGraph<T>{
         return summ;
     }
 
-    //todo to string
+    @Override
+    public String toString() {
+        return super.toString()+ "{" + GraphUtil.toString(this) + '}';
+    }
 
     @Override
     public IPathFinder<T> pathFinder() {

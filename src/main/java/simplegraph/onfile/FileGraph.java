@@ -114,7 +114,11 @@ public class FileGraph<T> implements ISimpleGraph<T>, ITrimToSize, Closeable, Fi
         }
     }
 
-    //todo to string
+    /* todo toString() using for MBeans. It should be unical as super.toString() without data
+    @Override
+    public String toString() {
+        return "FileGraph{" + GraphUtil.toString(this) + '}';
+    }*/
 
     @Override
     public IPathFinder<T> pathFinder() {
