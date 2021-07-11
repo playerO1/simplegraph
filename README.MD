@@ -1,4 +1,4 @@
-SimpleGraph java library
+SimpleGraph4J java library
 ========
 This library provides *simple* **low memory** and **fast** implementation of direction graph for Java applications. Each edge have "weight" for find nearest path between (using for Djikstra).
 It wrote for work with large direction graph with 1000-100000 nodes and 1000000000 links between node.
@@ -56,7 +56,8 @@ This library do provide fast and low system resource required graph. Fast create
 
 Multithread, random access
 --------------------------
-All implementation of graph is not thread safe. But...
+All implementation of graph is not thread safe. But if you realy know what you do...
+
 All write operation is not thread safe. All read operation is thread safe for in-memory implementation, if you graph has finish and do not modify.
 If any thread read/write as single thread per single node (vertex) it can be safe (for in-memory and file storage), but required not add new node with it - only link exist vertex.
 
@@ -97,9 +98,10 @@ How to compile, where is javadoc?
 ---------------------------------
 Use Apache Maven for compile (see pom.xml file).
 
-1. cd simplegraph\
-2. mvn install
-3. watch into simplegraph\target\
+1. download sources, unzip into simplegraph4j.
+2. cd simplegraph4j\
+3. mvn install
+4. watch into simplegraph4j\target\
 
 
 Example
@@ -109,8 +111,8 @@ At ISimpleGraph<T> as T you can using not only String. Any class that implement 
 
 ### Make simple graph
 
-    import simplegraph.*;
-    import simplegraph.onobject.SimpleGraph;
+    import simplegraph4j.*;
+    import simplegraph4j.onobject.SimpleGraph;
     ...
        ISimpleGraph<String> graph=new SimpleGraph<>();
        graph.addVertex("A");
@@ -126,8 +128,8 @@ At ISimpleGraph<T> as T you can using not only String. Any class that implement 
 ### Find path between 2 point
 
     import java.util.List;
-    import simplegraph.*;
-    import simplegraph.exception.PathNotFoundException;
+    import simplegraph4j.*;
+    import simplegraph4j.exception.PathNotFoundException;
     ...
         ISimpleGraph<String> graph=...add data to graph...
         IPathFinder<String> pathF=graph.pathFinder();
@@ -244,10 +246,9 @@ For future feature.
 - more unit test.
 
 0.0.2 (current)
-
 - Util - copy one graph to other, for clone and save to file. Implement toString().
-- (todo) add method addEdge into IVertex<T>, it should improvement perfomance for manual graph build
-- (todo) rename library and packages from "simplegraph" to "simplegraph4j" - it was a more unusual library name, representation that it was best optimize only for Java implementation.
+- Add method addEdge(to, weight) into IVertex<T>, it should improvement perfomance for manual graph build
+- Rename library and packages from "simplegraph" to "simplegraph4j" - it was a more unusual library name. Representation that it was best optimize only for Java implementation.
 
 0.0.1
 
