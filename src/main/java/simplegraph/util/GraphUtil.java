@@ -81,9 +81,11 @@ public class GraphUtil {
       }
       // 2. copy edges
       for (IVertex<T> v:src.getAllVertex()) {
-        // todo rewrite this place after upgrade API IVertex for increase perfomance.
-        for (IEdge<T> e:v.getAdjacencies())
-          dest.addEdge(v.getName(), e.getTarget().getName(), e.getWeight());
+        IVertex<T> destV=dest.vertexForObejct(v.getName());
+        for (IEdge<T> e:v.getAdjacencies()) {
+            destV.addEdge(e.getTarget().getName(), e.getWeight());
+          //or dest.addEdge(v.getName(), e.getTarget().getName(), e.getWeight());
+        }
       }
     }
 

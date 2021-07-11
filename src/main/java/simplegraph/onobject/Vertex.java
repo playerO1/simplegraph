@@ -13,13 +13,17 @@ public class Vertex<T> implements IVertex<T>, Comparable<Vertex>
 {
     public final T name; // external vertex name
     protected final Collection<Edge<T>> adjacencies=new ArrayList<>();
+    protected SimpleGraph<T> vertexResolver; // reference only for support addEdge()
     
     // foe Dijkstra
     public double minDistance = Double.POSITIVE_INFINITY;
     public Vertex<T> previous; // IDijkstraVertex
     
     
-    public Vertex(T argName) { name = argName; }
+    public Vertex(T argName, SimpleGraph<T> ownGraph) {
+        name = argName;
+        vertexResolver = ownGraph;
+    }
     public String toString() { return name.toString(); }
     public int compareTo(Vertex other)
     {
@@ -36,4 +40,9 @@ public class Vertex<T> implements IVertex<T>, Comparable<Vertex>
         return (Iterable)adjacencies; // todo check type
     }
 
+    @Override
+    public void addEdge(T to, double weight) {
+        Vertex<T> b=vertexResolver.vertexForObejct(to);
+        adjacencies.add(new Edge(b, weight));
+    }
 }

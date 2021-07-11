@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import simplegraph.IEdge;
 import simplegraph.IVertex;
+import simplegraph.onfile.FileVertex;
 
 public class PrimitiveVertex<T> implements IVertex<T>, Comparable<PrimitiveVertex>,
         Iterable<PrimitiveVertex.PEdge<T>>
@@ -59,6 +60,12 @@ public class PrimitiveVertex<T> implements IVertex<T>, Comparable<PrimitiveVerte
                 return getEdge(i++);
             }
         };
+    }
+    
+    @Override
+    public void addEdge(T to, double weight) {
+        PrimitiveVertex<T> b=vertexIndexResolver.vertexForObejct(to);
+        adjacencies.addEdge(b.id, weight);
     }
     
     public void trimToSize() {

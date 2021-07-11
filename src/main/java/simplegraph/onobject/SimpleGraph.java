@@ -30,7 +30,7 @@ public class SimpleGraph<T> implements ISimpleGraph<T>{
     
     @Override
     public void addVertex(T obj) {
-        Vertex<T> id=new Vertex<>(obj);
+        Vertex<T> id=new Vertex<>(obj, this);
         indexObjectToId.put(obj, id); //if (indexObjectToId.put(obj, id)!=null) throw new IllegalArgumentException("Value already contain: "+obj);
     }
     

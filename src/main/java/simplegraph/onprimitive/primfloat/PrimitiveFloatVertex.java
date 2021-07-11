@@ -45,6 +45,12 @@ public class PrimitiveFloatVertex<T> implements IVertex<T>, Comparable<Primitive
     }
 
     @Override
+    public void addEdge(T to, double weight) {
+        PrimitiveFloatVertex<T> b=vertexIndexResolver.vertexForObejct(to);
+        adjacencies.addEdge(b.id, (float)weight);
+    }
+
+    @Override
     public Iterator<PEdge<T>> iterator() {
         return new Iterator() {
             int i=0;

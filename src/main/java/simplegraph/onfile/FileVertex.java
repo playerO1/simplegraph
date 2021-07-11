@@ -46,6 +46,16 @@ public class FileVertex<T> implements IVertex<T>, Comparable<FileVertex>, Iterab
     public Iterable<PEdge<T>> getAdjacencies() {
         return this;//todo not effective! Use Visitor
     }
+    
+    @Override
+    public void addEdge(T to, double weight) {
+        FileVertex<T> b=vertexIndexResolver.vertexForObejct(to);
+        try {
+            adjacencies.addEdge(b.id, weight);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
 
     public PEdge<T> getEdge(long i) throws IOException {
         return adjacencies.getEdge(vertexIndexResolver, i);
