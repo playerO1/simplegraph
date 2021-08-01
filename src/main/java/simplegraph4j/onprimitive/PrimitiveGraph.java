@@ -10,6 +10,7 @@ import javax.management.*;
 import simplegraph4j.IPathFinder;
 import simplegraph4j.ISimpleGraph;
 import simplegraph4j.ITrimToSize;
+import simplegraph4j.SimpleGraphConfig;
 
 /**
  * Primitive graph with simple Dijkstra path search implementation
@@ -44,17 +45,33 @@ public class PrimitiveGraph<T> implements ISimpleGraph<T>, ITrimToSize, Closeabl
     }
     
     @Override
-    public void addVertex(T obj) {
+    public PrimitiveVertex<T> addVertex(T obj) {
         int id=indexOfVertex.size();
         PrimitiveVertex<T> vertex=new PrimitiveVertex<>(this, id, obj);
-        indexObjectToId.put(obj, vertex); //if (indexObjectToId.put(obj, id)!=null) throw new IllegalArgumentException("Value already contain: "+obj);
+        PrimitiveVertex<T> hasOverride = indexObjectToId.put(obj, vertex);
+        assert hasOverride==null; //if (indexObjectToId.put(obj, id)!=null) throw new IllegalArgumentException("Value already contain: "+obj);
         indexOfVertex.add(vertex);
+        return vertex;
     }
     
     @Override
     public void addEdge(T from, T to, double weight) {
         PrimitiveVertex<T> a=vertexForObejct(from);
         PrimitiveVertex<T> b=vertexForObejct(to);
+        if (a==null) {
+            if (SimpleGraphConfig.isAllowAutoAddVertex()) {
+                a=addVertex(from);
+            } else {
+                throw new IllegalArgumentException("Vertex not found: "+from);
+            }
+        }
+        if (b==null) {
+            if (SimpleGraphConfig.isAllowAutoAddVertex()) {
+                b=addVertex(to);
+            } else {
+                throw new IllegalArgumentException("Vertex not found: "+to);
+            }
+        }
         a.adjacencies.addEdge(b.id, weight);
     }
     
@@ -129,6 +146,6 @@ public class PrimitiveGraph<T> implements ISimpleGraph<T>, ITrimToSize, Closeabl
     }
     @Override
     public long getEdges() {
-        return edges();//todo concurrent ?
+        return edges();
     }
 }

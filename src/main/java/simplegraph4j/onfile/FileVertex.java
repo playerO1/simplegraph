@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import simplegraph4j.IEdge;
 import simplegraph4j.IVertex;
+import simplegraph4j.SimpleGraphConfig;
 
 public class FileVertex<T> implements IVertex<T>, Comparable<FileVertex>, Iterable<FileVertex.PEdge<T>>
 {
@@ -42,14 +43,32 @@ public class FileVertex<T> implements IVertex<T>, Comparable<FileVertex>, Iterab
         return name;
     }
 
+    /**
+     * This implementation was not effective.
+     * For fast access use EdgeHolder.EdgeVisitor.
+     * @see EdgeHolder#forEach(simplegraph4j.onfile.EdgeHolder.EdgeVisitor) 
+     * @return 
+     */
     @Override
     public Iterable<PEdge<T>> getAdjacencies() {
-        return this;//todo not effective! Use Visitor
+        return this;
+    }
+    
+    @Override
+    public long edgesCount() {
+        return adjacencies.size();
     }
     
     @Override
     public void addEdge(T to, double weight) {
         FileVertex<T> b=vertexIndexResolver.vertexForObejct(to);
+        if (b==null) {
+            if (SimpleGraphConfig.isAllowAutoAddVertex()) {
+                b=vertexIndexResolver.addVertex(to);
+            } else {
+                throw new IllegalArgumentException("Vertex not found: "+to);
+            }
+        }
         try {
             adjacencies.addEdge(b.id, weight);
         } catch (IOException ex) {
@@ -66,7 +85,7 @@ public class FileVertex<T> implements IVertex<T>, Comparable<FileVertex>, Iterab
      * @return 
      */
     @Override
-    public Iterator<PEdge<T>> iterator() { // todo итератор реализовать в adjacencies(EdgeHolder)
+    public Iterator<PEdge<T>> iterator() {
         return (Iterator)adjacencies.iterator(vertexIndexResolver);
 //        return new Iterator() {
 //            long i=0;
@@ -92,10 +111,12 @@ public class FileVertex<T> implements IVertex<T>, Comparable<FileVertex>, Iterab
 
     void close() throws IOException {
         adjacencies.close();
-//todo пока для отладки оставлю файлы.        File file=usedFile();
-//        if (!file.delete()) {
-//            throw new IOException("Can not delete temp file "+file);
-//        }
+        if (SimpleGraphConfig.isAutoClearFileGraphTempFolder()) { // todo && isTempFile - do not delete if call .save()
+            File file=usedFile();
+            if (!file.delete()) {
+                throw new IOException("Can not delete temp file "+file);
+            }
+        }
     }
 
     public static class PEdge<T> implements IEdge<T>{

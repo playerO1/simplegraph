@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.PriorityQueue;
 import simplegraph4j.IPathFinder;
+import simplegraph4j.IVertex;
 import simplegraph4j.PathHandle;
 import simplegraph4j.exception.PathNotFoundException;
 
@@ -50,6 +51,7 @@ public class PDijkstraPathFind<T> implements IPathFinder<T>{
         return getShortestPathTo(target);
     }
     
+    @Override
     public void computeAllPath(T from, PathHandle<T> pathVariantHandle) throws PathNotFoundException{
         resetGraphPathData();
         
@@ -69,7 +71,7 @@ public class PDijkstraPathFind<T> implements IPathFinder<T>{
     }
     
  // Dijkstra
-    // todo: алгоритм Дейкстры не оптимален, для графов с тысячами вершин. рекомендуется использовтаь другие - https://cyberleninka.ru/article/n/obzor-algoritmov-poiska-kratchayshego-puti-v-grafe/viewer
+    // алгоритм Дейкстры не оптимален, для графов с тысячами вершин. рекомендуется использовтаь другие - https://cyberleninka.ru/article/n/obzor-algoritmov-poiska-kratchayshego-puti-v-grafe/viewer
     protected void computePaths(PrimitiveVertex source)
     {
         source.minDistance = 0.;
@@ -107,5 +109,28 @@ public class PDijkstraPathFind<T> implements IPathFinder<T>{
     @Override
     public double getPathLength() {
         return lastLength;
+    }
+    
+    @Override
+    public long incomeEdgeCount(T to) {
+        PrimitiveVertex<T> toV=graph.vertexForObejct(to);
+        if (toV==null) throw new IllegalArgumentException("Vertex not foundfor: "+to);
+        final int toID=toV.id;
+        long counter=0;
+        for (PrimitiveVertex<T> v:graph.getAllVertex()) {
+            // Visit each edge exiting u
+            EdgeHolder edges=v.adjacencies;
+            for (int i=0;i<edges.size();i++) {
+                if (toID==edges.getTarget(i))
+                    counter++;
+            }
+        }
+        return counter;
+    }
+    @Override
+    public long outcomeEdgeCount(T from) {
+        IVertex<T> v=graph.vertexForObejct(from);
+        if (v==null) return 0;
+        return v.edgesCount();
     }
 }

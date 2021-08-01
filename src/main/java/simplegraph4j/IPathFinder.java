@@ -22,4 +22,7 @@ public interface IPathFinder<T> {
      * @throws PathNotFoundException if no one path found - this point has noany link
      */
     void computeAllPath(T from, PathHandle<T> pathVariantHandle) throws PathNotFoundException;
+    
+    long incomeEdgeCount(T to);
+    long outcomeEdgeCount(T from);
 }

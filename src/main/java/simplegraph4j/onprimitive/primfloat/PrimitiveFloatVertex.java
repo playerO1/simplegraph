@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import simplegraph4j.IEdge;
 import simplegraph4j.IVertex;
+import simplegraph4j.SimpleGraphConfig;
 
 public class PrimitiveFloatVertex<T> implements IVertex<T>, Comparable<PrimitiveFloatVertex>, Iterable<PrimitiveFloatVertex.PEdge<T>>
 {
@@ -38,6 +39,11 @@ public class PrimitiveFloatVertex<T> implements IVertex<T>, Comparable<Primitive
     public Iterable<PEdge<T>> getAdjacencies() {
         return this;
     }
+    
+    @Override
+    public long edgesCount() {
+        return adjacencies.size();
+    }
 
     public PEdge<T> getEdge(int i) {
         PrimitiveFloatVertex<T> vertex=vertexIndexResolver.getVertexById(adjacencies.getTarget(i));
@@ -47,6 +53,13 @@ public class PrimitiveFloatVertex<T> implements IVertex<T>, Comparable<Primitive
     @Override
     public void addEdge(T to, double weight) {
         PrimitiveFloatVertex<T> b=vertexIndexResolver.vertexForObejct(to);
+                if (b==null) {
+            if (SimpleGraphConfig.isAllowAutoAddVertex()) {
+                b=vertexIndexResolver.addVertex(to);
+            } else {
+                throw new IllegalArgumentException("Vertex not found: "+to);
+            }
+        }
         adjacencies.addEdge(b.id, (float)weight);
     }
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import simplegraph4j.IEdge;
 import simplegraph4j.IVertex;
+import simplegraph4j.SimpleGraphConfig;
 
 /**
  * Вершина
@@ -39,10 +40,22 @@ public class Vertex<T> implements IVertex<T>, Comparable<Vertex>
     public Iterable<IEdge<T>> getAdjacencies() {
         return (Iterable)adjacencies; // todo check type
     }
+    
+    @Override
+    public long edgesCount() {
+        return adjacencies.size();
+    }
 
     @Override
     public void addEdge(T to, double weight) {
         Vertex<T> b=vertexResolver.vertexForObejct(to);
+        if (b==null) {
+            if (SimpleGraphConfig.isAllowAutoAddVertex()) {
+                b=vertexResolver.addVertex(to);
+            } else {
+                throw new IllegalArgumentException("Vertex not found: "+to);
+            }
+        }
         adjacencies.add(new Edge(b, weight));
     }
 }

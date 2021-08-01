@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
       <groupId>com.github.playerO1.simplegraph4j</groupId>
       <artifactId>simplegraph4j</artifactId>
-      <version>0.0.2</version>
+      <version>0.0.3</version>
       <packaging>jar</packaging>
 
       <!-- More project information -->
@@ -33,7 +33,7 @@
           <maven.compiler.target>1.7</maven.compiler.target>
       </properties>
       <build>
-        <pluginManagement>
+          <!--<pluginManagement>-->
             <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -44,7 +44,18 @@
                        <target>${maven.compiler.target}</target>
                    </configuration>
                 </plugin>
+                <plugin>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <configuration>
+                    <archive>
+                        <manifest>
+                        <addClasspath>true</addClasspath>
+                        <mainClass></mainClass>
+                        </manifest>
+                    </archive>
+                    </configuration>
+                </plugin>
             </plugins>
-        </pluginManagement>
+            <!--</pluginManagement>-->
       </build>
 </project>

@@ -12,6 +12,7 @@ import javax.management.*;
 import simplegraph4j.IPathFinder;
 import simplegraph4j.ISimpleGraph;
 import simplegraph4j.ITrimToSize;
+import simplegraph4j.SimpleGraphConfig;
 
 /**
  * File storage graph with simple Dijkstra path search implementation
@@ -21,7 +22,7 @@ import simplegraph4j.ITrimToSize;
  */
 public class FileGraph<T> implements ISimpleGraph<T>, ITrimToSize, Closeable, FileGraphMBean{
     //final static Logger log=LoggerFactory.getLogger(FileGraph.class);
-    public final static int MAX_OPEN_FILE = 1200; // For watchout OS limit open file. See Linux /etc/secure/limits.conf.
+    public static int MAX_OPEN_FILE = 1200; // For watchout OS limit open file. See Linux /etc/secure/limits.conf.
     
     protected final File workPath;
     // mapping external key
@@ -45,7 +46,7 @@ public class FileGraph<T> implements ISimpleGraph<T>, ITrimToSize, Closeable, Fi
             //log.warn("Error register MBean", ex);
         }
     }
-    // todo cleanup method
+    // todo cleanup method finalize()
 
     @Override
     public FileVertex<T> vertexForObejct(T obj) {
@@ -56,12 +57,14 @@ public class FileGraph<T> implements ISimpleGraph<T>, ITrimToSize, Closeable, Fi
     }
     
     @Override
-    public void addVertex(T obj) {
+    public FileVertex<T> addVertex(T obj) {
         try {
             int id=indexOfVertex.size();
             FileVertex<T> vertex=new FileVertex<>(this, id, obj);
-            indexObjectToId.put(obj, vertex); //if (indexObjectToId.put(obj, id)!=null) throw new IllegalArgumentException("Value already contain: "+obj);
+            FileVertex<T> hasOverride=indexObjectToId.put(obj, vertex);
+            assert hasOverride==null; //if (indexObjectToId.put(obj, id)!=null) throw new IllegalArgumentException("Value already contain: "+obj);
             indexOfVertex.add(vertex);
+            return vertex;
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
@@ -71,6 +74,20 @@ public class FileGraph<T> implements ISimpleGraph<T>, ITrimToSize, Closeable, Fi
     public void addEdge(T from, T to, double weight) {
         FileVertex<T> a=vertexForObejct(from);
         FileVertex<T> b=vertexForObejct(to);
+        if (a==null) {
+            if (SimpleGraphConfig.isAllowAutoAddVertex()) {
+                a=addVertex(from);
+            } else {
+                throw new IllegalArgumentException("Vertex not found: "+from);
+            }
+        }
+        if (b==null) {
+            if (SimpleGraphConfig.isAllowAutoAddVertex()) {
+                b=addVertex(to);
+            } else {
+                throw new IllegalArgumentException("Vertex not found: "+to);
+            }
+        }
         try {
             a.adjacencies.addEdge(b.id, weight);
         } catch (IOException ex) {
@@ -156,7 +173,7 @@ public class FileGraph<T> implements ISimpleGraph<T>, ITrimToSize, Closeable, Fi
     }
     @Override
     public long getEdges() {
-        return edges();//todo concurrent ?
+        return edges();
     }
     @Override
     public int getMaxOpenIO() {

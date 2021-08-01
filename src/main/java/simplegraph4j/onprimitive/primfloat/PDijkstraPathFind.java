@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.PriorityQueue;
 import simplegraph4j.IPathFinder;
+import simplegraph4j.IVertex;
 import simplegraph4j.PathHandle;
 import simplegraph4j.exception.PathNotFoundException;
 
@@ -107,4 +108,28 @@ public class PDijkstraPathFind<T> implements IPathFinder<T>{
     public double getPathLength() {
         return lastLength;
     }
+    
+    @Override
+    public long incomeEdgeCount(T to) {
+        PrimitiveFloatVertex<T> toV=graph.vertexForObejct(to);
+        if (toV==null) throw new IllegalArgumentException("Vertex not foundfor: "+to);
+        final int toID=toV.id;
+        long counter=0;
+        for (PrimitiveFloatVertex<T> v:graph.getAllVertex()) {
+            // Visit each edge exiting u
+            EdgeFloatHolder edges=v.adjacencies;
+            for (int i=0;i<edges.size();i++) {
+                if (toID==edges.getTarget(i))
+                    counter++;
+            }
+        }
+        return counter;
+    }
+    @Override
+    public long outcomeEdgeCount(T from) {
+        IVertex<T> v=graph.vertexForObejct(from);
+        if (v==null) return 0;
+        return v.edgesCount();
+    }
+
 }

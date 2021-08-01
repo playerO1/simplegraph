@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import simplegraph4j.IPathFinder;
 import simplegraph4j.ISimpleGraph;
+import simplegraph4j.SimpleGraphConfig;
 import simplegraph4j.util.GraphUtil;
 
 /**
@@ -29,15 +30,31 @@ public class SimpleGraph<T> implements ISimpleGraph<T>{
     }
     
     @Override
-    public void addVertex(T obj) {
+    public Vertex<T> addVertex(T obj) {
         Vertex<T> id=new Vertex<>(obj, this);
-        indexObjectToId.put(obj, id); //if (indexObjectToId.put(obj, id)!=null) throw new IllegalArgumentException("Value already contain: "+obj);
+        Vertex<T> hasOverride=indexObjectToId.put(obj, id);
+        assert hasOverride==null;  //if (indexObjectToId.put(obj, id)!=null) throw new IllegalArgumentException("Value already contain: "+obj);
+        return id;
     }
     
     @Override
     public void addEdge(T from, T to, double weight) {
         Vertex<T> a=vertexForObejct(from);
         Vertex<T> b=vertexForObejct(to);
+        if (a==null) {
+            if (SimpleGraphConfig.isAllowAutoAddVertex()) {
+                a=addVertex(from);
+            } else {
+                throw new IllegalArgumentException("Vertex not found: "+from);
+            }
+        }
+        if (b==null) {
+            if (SimpleGraphConfig.isAllowAutoAddVertex()) {
+                b=addVertex(to);
+            } else {
+                throw new IllegalArgumentException("Vertex not found: "+to);
+            }
+        }
         a.adjacencies.add(new Edge(b, weight));
     }
     

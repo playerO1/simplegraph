@@ -28,7 +28,7 @@ public class GraphVisualizator {
     Color color_line=new Color(25,0,255, 20);
     boolean randomize_coord=true; // неровное расположение точек
     boolean randomize_layer=false; // смешать слои
-    boolean line_weight=true; //todo учитывать вес линии
+    boolean line_weight=true; // учитывать вес линии
     
     
     protected Color colorMap(double pos) {
@@ -153,7 +153,6 @@ public class GraphVisualizator {
                     if (x>=width) x=width-1;
                 }
                 coord.put(layer.get(j), new Point(x,y));
-                // todo add random to X
             }
         }
         
@@ -203,7 +202,7 @@ public class GraphVisualizator {
         }
         if (markPoint!=null && !markPoint.isEmpty()) {
             for (IVertex v:markPoint) {
-                Point p=coord.get(v); // todo is not null?
+                Point p=coord.get(v);
                 if (p==null) {
                     //log.warn("Mark vertex is not in graph: {}", v);
                     continue;

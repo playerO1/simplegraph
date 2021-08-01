@@ -39,9 +39,10 @@ Interface:
 
 Implementation:
 
-* SimpleGraph<T> - java pojo-object based graph. It is simple implementation. ~28 byte per 1 edge, +0-15% owerhead by ArrayList.
-* PrimitiveGraph<T> - using primitive array for minimize in memory usage. ~12 bytes per 1 edge, +0-30% owerhead by T*ArrayList but support trimToSize().
+* SimpleGraph<T> - java pojo-object based graph. It is simple implementation. ≈28 byte per 1 edge, +0-15% owerhead by ArrayList.
+* PrimitiveGraph<T> - using primitive array for minimize in memory usage. ≈12 bytes per 1 edge, +0-30% owerhead by T*ArrayList but support trimToSize().
 * FileGraph<T> - file-storage graph. Using temp path with multiply binary files. 12 bytes per 1 edge on disk + 1-16kB per vertex for IO bufer. OS may have limit on open file. This graph implementation will close not using open file and flush cache after FileGraph.MAX_OPEN_FILE = 1200, when this limit is overflow. But random read/write in over that MAX_OPEN_FILE vertex can be decreace perfomance (up to x1000!).
+* SimpleGraphConfig - one place for configurate a little different behavior.
 
 Operation time
 --------------
@@ -63,7 +64,7 @@ If any thread read/write as single thread per single node (vertex) it can be saf
 
 Detail:
 
-* Add new vertex is not thread safe
+* Add new vertex is not thread safe. Strong recomended disable options for auto add vertex: SimpleGraphConfig.setAllowAutoAddVertex(false).
 * Do not read (iterate) and write in single vertex - it is not thread safe
 * Add new edge is not thread safe per vertex. But safe when eatch single thread add edges from single vertex.
 * All read operation is thread safe when graph is read only (except FileGraph).
@@ -79,7 +80,7 @@ Table of memory usage by graph implementation class:
 |----------------|-----------------------------------------------------------------------------------------|-------------------------------|
 | SimpleGraph    | ? <100byte                                                                              | 28 byte + 0-15% of ArrayList* |
 | PrimitiveGraph | ? <100byte                                                                              | 12 byte + 0-30% of TIntList*  |
-| FileGraph      | In memory: 8-16 kB per first 1200 vertex; over 1201 is ~1kB. In disk: 1 file per vertex | 12 byte on file               |
+| FileGraph      | In memory: 8-16 kB per first 1200 vertex; over 1201 is ≈1kB. In disk: 1 file per vertex | 12 byte on file               |
 
 (*) ArrayList and TIntList at vertex was using for store edges. This class contain dynamic reallocate array, usualy it can be up to 30% memory overhead. PrimitiveGraph have method trimToSize() for decrease memory usabe by unused array space.
 Java Object reference size is platform deppendence. Usualy it is 8 byte per Object link. But with special java option (compress link) and low parameter Xmx it can be using only 4 byte per link.
@@ -115,9 +116,6 @@ At ISimpleGraph<T> as T you can using not only String. Any class that implement 
     import simplegraph4j.onobject.SimpleGraph;
     ...
        ISimpleGraph<String> graph=new SimpleGraph<>();
-       graph.addVertex("A");
-       graph.addVertex("B");
-       graph.addVertex("C");
        graph.addEdge("A", "B", 1.0); // from, to, w
        graph.addEdge("A", "B", 1.0);
        graph.addEdge("A", "C", 15.4);
@@ -227,27 +225,35 @@ For future feature.
 - may be rewrite same class and change license on GNU LGPL (see using sources under GNU GPL v2 restriction).
 - ...
 
-0.1.4
+0.1.?
 
 - more usefull util (visualization, statistic, any more math alhorithms)
 - IO: MapReduce file graph - same as file storage graph, but using text for store number. This should bemore useull for map-reduce framework compatibility.
-- implemen hashCode(), equals() method.
+- IO: support Java Serializable, (I think without serialVersionUID)
+- implemen equals() method.
 - check package name, rename package.
 
-0.1.3
+0.1.? (future)
 
 - Split graph implementation from ISimpleGraph<Object> to ISimpleGraph<Object> wrapper ower IntegerGraph<int>. IntegerGraph should be ultimate faster API, more CPU-friendly, It was implemented by PrimitiveGraph and FileGraph.
 - new API: IVertex.addEdge() - should be fast; findEdge(IVertex to), removeEdge(IVertex to), setEdge(IVertex to, double newW). May be not fast.
-
-0.0.3+ (future)
 
 - full implement Iterator, Iterable interface (check interface, may be enought for java 1.7)
 - FileGraph: support load graph from exist files (full support save/load)
 - more unit test.
 
-0.0.2 (current)
-- Util - copy one graph to other, for clone and save to file. Implement toString().
-- Add method addEdge(to, weight) into IVertex<T>, it should improvement perfomance for manual graph build
+0.0.3 (_current_)
+
+- More simple API, now you don't need define all vertex addVertex(...) before addEdge(...). Add SimpleGraphConfig class for configure same behavior.
+- Add usefull function incomeEdgeCount(T to) outcomeEdgeCount(T from) into IPathFinder.
+- FileGraph fix assert check on close. Small Iterator improvement.
+- More JavaDoc
+
+
+0.0.2
+
+- Util - copy one graph to other, for clone and save to file. Implement toString(), hashCode().
+- Add method addEdge(to, weight) into IVertex<T>, it should improvement perfomance for manual graph build.
 - Rename library and packages from "simplegraph" to "simplegraph4j" - it was a more unusual library name. Representation that it was best optimize only for Java implementation.
 
 0.0.1

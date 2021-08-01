@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.PriorityQueue;
 import simplegraph4j.IPathFinder;
+import simplegraph4j.IVertex;
 import simplegraph4j.PathHandle;
 import simplegraph4j.exception.PathNotFoundException;
 
@@ -69,7 +70,7 @@ public class DijkstraPathFind<T> implements IPathFinder<T>{
     }
     
  // Dijkstra
-    // todo: алгоритм Дейкстры не оптимален, для графов с тысячами вершин. рекомендуется использовтаь другие - https://cyberleninka.ru/article/n/obzor-algoritmov-poiska-kratchayshego-puti-v-grafe/viewer
+    // алгоритм Дейкстры не оптимален, для графов с тысячами вершин. рекомендуется использовтаь другие - https://cyberleninka.ru/article/n/obzor-algoritmov-poiska-kratchayshego-puti-v-grafe/viewer
     protected void computePaths(Vertex source)
     {
         source.minDistance = 0.;
@@ -105,5 +106,26 @@ public class DijkstraPathFind<T> implements IPathFinder<T>{
     @Override
     public double getPathLength() {
         return lastLength;
+    }
+    
+    
+    @Override
+    public long incomeEdgeCount(T to) {
+        final Vertex<T> toV=graph.vertexForObejct(to);
+        if (toV==null) throw new IllegalArgumentException("Vertex not foundfor: "+to);
+        long counter=0;
+        for (Vertex<T> v:graph.getAllVertex()) {
+            for (Edge e : v.adjacencies) {
+                if (toV==e.target)
+                    counter++;
+            }
+        }
+        return counter;
+    }
+    @Override
+    public long outcomeEdgeCount(T from) {
+        IVertex<T> v=graph.vertexForObejct(from);
+        if (v==null) return 0;
+        return v.edgesCount();
     }
 }

@@ -16,6 +16,8 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.PriorityQueue;
 import java.util.function.Consumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import simplegraph4j.util.UnsuncBufferedInputStream;
 import simplegraph4j.util.UnsyncBufferedOutputStream;
 import simplegraph4j.IEdge;
@@ -41,7 +43,7 @@ public class EdgeHolder implements Closeable{
     protected static long ioSequenceAllId=0; // fixme недопустимо переполнение!
     protected long ioSequenceId=0;
     
-    //todo -- buffered stream --
+    // -- buffered stream --
     private UnsyncBufferedOutputStream os;
     private UnsuncBufferedInputStream is;
     private long isPos;
@@ -121,7 +123,6 @@ public class EdgeHolder implements Closeable{
               throw new RuntimeException("Reopen stream error", e);
           }
         }
-        //todo check limit
     }
     // ------------
 
@@ -198,8 +199,16 @@ public class EdgeHolder implements Closeable{
             }
             @Override
             public boolean hasNext() {
-                return i<size && is!=null;
-                // todo close empty iterator
+                boolean hasNext = i<size && is!=null;
+                if (!hasNext && is!=null) {
+                    try { // todo close empty iterator
+                        is.close();
+                        is=null;
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+                return hasNext;
             }
 
             @Override
@@ -227,9 +236,13 @@ public class EdgeHolder implements Closeable{
 //                while (hasNext())
 //                    action.accept(next());
                 try {
-                    if (is!=null) {// todo переиспользовать is.
-                        is.close();
-                        is=null;
+                    if (is!=null) {
+                        // todo переиспользовать is надо правильно. Их уже 2, надо не перепутать.
+                        // todo unit test!
+                        if (EdgeHolder.this.is!=null) {
+                            EdgeHolder.this.is = null;
+                        }
+                        EdgeHolder.this.is=is;
                     }
                     EdgeHolder.this.forEach(// java 1.8:(target, weight)-> {
                       new EdgeVisitor() {
@@ -271,7 +284,6 @@ public class EdgeHolder implements Closeable{
     
     @Override
     public void close() throws IOException {
-        assert filePos==file.length();
         try {
           if (os!=null) os.close();
           os=null;
@@ -280,6 +292,7 @@ public class EdgeHolder implements Closeable{
           is=null;
         }
         flushed=true;
+        assert file.length()==size*BLOCK_SIZE;
     }
     // -- buffered stream --
     

@@ -14,7 +14,6 @@ public class GraphUtil {
 
     /**
      * String graph representation
-     * todo write sample text in README.md!
      **/
     public static <T> String toString(ISimpleGraph<T> graph) {
         return toString(graph, 10000000); // I think, you don't need more
@@ -77,7 +76,7 @@ public class GraphUtil {
       } else {
         for (IVertex<T> v:src.getAllVertex())
           if (dest.vertexForObejct(v.getName())==null)
-            dest.addVertex(v.getName()); // todo add assert into addVertex()
+            dest.addVertex(v.getName()); // todo add assert into addVertex() for check double call
       }
       // 2. copy edges
       for (IVertex<T> v:src.getAllVertex()) {

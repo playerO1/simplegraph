@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.PriorityQueue;
 import simplegraph4j.IPathFinder;
+import simplegraph4j.IVertex;
 import simplegraph4j.PathHandle;
 import simplegraph4j.exception.PathNotFoundException;
 
@@ -78,7 +79,7 @@ public class FDijkstraPathFind<T> implements IPathFinder<T>{
     }
     
  // Dijkstra
-    // todo: алгоритм Дейкстры не оптимален, для графов с тысячами вершин. рекомендуется использовтаь другие - https://cyberleninka.ru/article/n/obzor-algoritmov-poiska-kratchayshego-puti-v-grafe/viewer
+    // алгоритм Дейкстры не оптимален, для графов с тысячами вершин. рекомендуется использовтаь другие - https://cyberleninka.ru/article/n/obzor-algoritmov-poiska-kratchayshego-puti-v-grafe/viewer
     protected void computePaths(FileVertex source)
     {
         long logTime=System.currentTimeMillis();
@@ -130,4 +131,35 @@ public class FDijkstraPathFind<T> implements IPathFinder<T>{
     public double getPathLength() {
         return lastLength;
     }
+    
+    @Override
+    public long incomeEdgeCount(T to) {
+        FileVertex<T> toV=graph.vertexForObejct(to);
+        if (toV==null) throw new IllegalArgumentException("Vertex not foundfor: "+to);
+        final int toID=toV.id;
+        final long[] counter=new long[1]; // todo use more simple object that array.
+        try {
+          for (FileVertex<T> v:graph.getAllVertex()) {
+            EdgeHolder edges=v.adjacencies;
+            edges.forEach(//java 1.8:(int targetId, double weight) -> {
+                new EdgeHolder.EdgeVisitor() {
+                    @Override
+                    public void acceptEdge(int targetId, double weight) {
+                    if (toID == targetId) {
+                        counter[0]++;
+                    }
+                }});
+          }
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+        return counter[0];
+    }
+    @Override
+    public long outcomeEdgeCount(T from) {
+        IVertex<T> v=graph.vertexForObejct(from);
+        if (v==null) return 0;
+        return v.edgesCount();
+    }
+
 }
