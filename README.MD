@@ -44,6 +44,10 @@ Implementation:
 * FileGraph<T> - file-storage graph. Using temp path with multiply binary files. 12 bytes per 1 edge on disk + 1-16kB per vertex for IO bufer. OS may have limit on open file. This graph implementation will close not using open file and flush cache after FileGraph.MAX_OPEN_FILE = 1200, when this limit is overflow. But random read/write in over that MAX_OPEN_FILE vertex can be decreace perfomance (up to x1000!).
 * SimpleGraphConfig - one place for configurate a little different behavior.
 
+Support operation: fast build wery big directed graph with edge weight (floating point precission 'double'), add edges, add vertex, iterate over edges/wertex; find shortest path (Djikstra alhorithm), find all path from point (Djikstra alhorithm).
+
+Not supported operation: modify exist vertex, remove vertex; load graph from file (future feature).
+
 Operation time
 --------------
 This library do provide fast and low system resource required graph. Fast create, fast iterate over vertex/edges. Minimum check and minimal verify of data.
@@ -219,32 +223,32 @@ Project Roadmap
 -------
 For future feature.
 
-1.0.0
-
-- JavaDoc
-- may be rewrite same class and change license on GNU LGPL (see using sources under GNU GPL v2 restriction).
-- ...
-
-0.1.?
+(future 2 final)
 
 - more usefull util (visualization, statistic, any more math alhorithms)
-- IO: MapReduce file graph - same as file storage graph, but using text for store number. This should bemore useull for map-reduce framework compatibility.
 - IO: support Java Serializable, (I think without serialVersionUID)
 - implemen equals() method.
 - check package name, rename package.
+- More JavaDoc
+- may be rewrite same class and change license on GNU LGPL (see using sources under GNU GPL v2 restriction).
 
-0.1.? (future)
+(future 1)
 
 - Split graph implementation from ISimpleGraph<Object> to ISimpleGraph<Object> wrapper ower IntegerGraph<int>. IntegerGraph should be ultimate faster API, more CPU-friendly, It was implemented by PrimitiveGraph and FileGraph.
-- new API: IVertex.addEdge() - should be fast; findEdge(IVertex to), removeEdge(IVertex to), setEdge(IVertex to, double newW). May be not fast.
-
-- full implement Iterator, Iterable interface (check interface, may be enought for java 1.7)
+- new API: IVertex.findEdge(IVertex to), removeEdge(IVertex to), setEdge(IVertex to, double newW). May be not fast.
+- full implement Iterator, Iterable interface, List iterator (check interface, may be enought for java 1.7)
 - FileGraph: support load graph from exist files (full support save/load)
 - more unit test.
 
-0.0.3 (_current_)
+0.0.4 (_current_)
+
+- Add GraphIOUtil usefull util for read and qrite graph into TSV (CSV-like) file format. This should be more useull for map-reduce framework compatibility. Usefull for export/import data.
+- maven projec pom.xml: less warnings
+
+0.0.3
 
 - More simple API, now you don't need define all vertex addVertex(...) before addEdge(...). Add SimpleGraphConfig class for configure same behavior.
+- IVertex.addEdge() - should be fast for some use-case.
 - Add usefull function incomeEdgeCount(T to) outcomeEdgeCount(T from) into IPathFinder.
 - FileGraph fix assert check on close. Small Iterator improvement.
 - More JavaDoc

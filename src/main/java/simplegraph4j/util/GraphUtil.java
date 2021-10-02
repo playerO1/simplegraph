@@ -107,14 +107,4 @@ public class GraphUtil {
         return hash;
     }
 
-    /**
-     * Clear all files in path (not recursive, only files).
-     * @throws IOException when can not delete file
-     **/
-    public void clearFilesFromPath(File path) throws IOException {
-      if (!path.isDirectory()) throw new IOException ("Path is not a directory: "+path);
-      for (File f:path.listFiles()) if (f.isFile()) {
-        if (!f.delete()) new IOException ("Can not delete file: "+f);
-      }
-    }
 }
