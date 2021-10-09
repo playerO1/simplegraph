@@ -53,7 +53,7 @@
                     <archive>
                         <manifest>
                         <addClasspath>true</addClasspath>
-                        <mainClass></mainClass>
+                        <mainClass>simplegraph4j.executable.CMDLauncher</mainClass>
                         </manifest>
                     </archive>
                     </configuration>
@@ -64,6 +64,26 @@
                     <artifactId>maven-resources-plugin</artifactId>
                     <version>2.6</version>
                     </plugin>-->
+                <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-dependency-plugin</artifactId>
+                   <version>3.2.0</version><!-- 2.8 or new? -->
+                   <executions>
+                        <execution>
+                          <id>copy-dependencies</id>
+                          <phase>package</phase>
+                          <goals>
+                            <goal>copy-dependencies</goal>
+                          </goals>
+                          <configuration>
+                              <!--<outputDirectory>${project.build.directory}/lib</outputDirectory> with classpath prefix-->
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                          </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
