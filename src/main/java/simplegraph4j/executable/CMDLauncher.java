@@ -24,10 +24,10 @@ import simplegraph4j.util.GraphIOUtil;
  * @author A.K. (github.com/playerO1)
  */
 public class CMDLauncher {
-    public static final int EXIT_CODE_ERROR=-1;
-    public static final int EXIT_CODE_IOERROR=-2;
-    public static final int EXIT_CODE_BAD_PARAMETER=-3;
-    public static final int EXIT_CODE_PATH_NOT_FOUND=-4;
+    public static final int EXIT_CODE_ERROR=1;
+    public static final int EXIT_CODE_IOERROR=2;
+    public static final int EXIT_CODE_BAD_PARAMETER=3;
+    public static final int EXIT_CODE_PATH_NOT_FOUND=4;
     
     protected String tFrom, tTo; // vertex target
     protected String graphFileName;

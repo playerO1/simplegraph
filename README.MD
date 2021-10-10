@@ -28,6 +28,53 @@ This comparsion I do at 2020-2021 year.
 
 ---------------------------------------
 
+Support CMD run mode
+--------------------
+As another Java(tm) jar file can be use with 2 case: as library, as executable.
+You can use  this simplegraph4j-*.jar from command line without coding Java.
+
+Example: you have test.csv (TSV) file with next format: vertex(tab)vertex(tab)weight
+
+1
+2
+3
+4
+5
+1	2	0.002327983
+2	1	0.009753869
+2	3	0.041628566
+1	4	0.050269039
+2	4	0.049847454
+1	3	0.054585952
+3	4	0.065975218
+4	1	0.072496691
+3	2	0.093024444
+
+
+Command line for find nearest path from vertex 1 to 3:
+
+    java -jar simplegraph4j-0.0.4.jar -i test.csv -f 1 -t 3
+
+Output:
+
+    1 2 3
+
+Command line for find nearest path from vertex 1 to 5:
+
+    java -jar simplegraph4j-0.0.4.jar -i test.csv -f 1 -t 5
+
+Output is empty, but error code is 4 (linux "echo $?" windows "echo %errorlever%").
+For user friendly output use --verbose option (or read --help):
+
+    java -jar simplegraph4j-0.0.4.jar --verbose -i test.csv -f 1 -t 5
+
+Output:
+
+    Search shortest path from 1 to 5
+    Path not found.
+
+It will be usefull for batch processing graph data, or with map-reduce. Don't forgot add dependencys near simplegraph4j*.jar: trove4j-3.0.3.jar.
+
 Library Architecture
 --------------------
 Interface:
