@@ -1,0 +1,161 @@
+ 
+01.08.2021  OS Linux, Java 11. 100 vertex, 5000 edges
+
+
+
+run:
+Test 1. Empty.
+Build graph EmptyBuilder{vertex=100, adges=5000}, path from v0 to v99
+Path: []
+Time ns. Build,find:	2258141	5440
+Time ns. Build,find:	2300249	4198
+Time ns. Build,find:	2253292	3837
+Time ns. Build,find:	2137958	3867
+Time ns. Build,find:	2127248	4428
+Time ns. Build,find:	2085079	4608
+Time ns. Build,find:	2086883	3416
+Time ns. Build,find:	1869929	3587
+Time ns. Build,find:	1053330	1824
+Time ns. Build,find:	1055424	1272
+Memory byte. Build,find:	146816	0
+Memory byte. Build,find:	314688	0
+Memory byte. Build,find:	251752	0
+Memory byte. Build,find:	251752	0
+Memory byte. Build,find:	251752	0
+Memory byte. Build,find:	251752	0
+Memory byte. Build,find:	251752	0
+Memory byte. Build,find:	251752	0
+Memory byte. Build,find:	251752	0
+Memory byte. Build,find:	251752	0
+
+
+Test 2. SimpleGraph (PrimitiveGraph).
+Time ns. Build,find:	209286970	3805571
+Time ns. Build,find:	3400346	1154197
+Time ns. Build,find:	1657213	1085059
+Time ns. Build,find:	2696988	974833
+Time ns. Build,find:	3242082	1232192
+Time ns. Build,find:	2425052	1213787
+Time ns. Build,find:	2487056	1218277
+Time ns. Build,find:	2435802	1202748
+Time ns. Build,find:	2606199	1242401
+Time ns. Build,find:	2559081	1256939
+Memory byte. Build,find:	1258144	0
+Memory byte. Build,find:	1258144	0
+Memory byte. Build,find:	721904	0
+Memory byte. Build,find:	744120	0
+Memory byte. Build,find:	744120	0
+Memory byte. Build,find:	744120	0
+Memory byte. Build,find:	744120	0
+Memory byte. Build,find:	744120	0
+Memory byte. Build,find:	744120	0
+Memory byte. Build,find:	744120	0
+
+Test 2. SimpleGraph (on Object).
+Time ns. Build,find:	159608149	3938960
+Time ns. Build,find:	3183514	1638549
+Time ns. Build,find:	2351475	1393232
+Time ns. Build,find:	3170910	1247641
+Time ns. Build,find:	4850465	1368446
+Time ns. Build,find:	2409032	1295150
+Time ns. Build,find:	2352277	1220581
+Time ns. Build,find:	2060143	1198650
+Time ns. Build,find:	2064100	1161491
+Time ns. Build,find:	2117149	975505
+Memory byte. Build,find:	116952	56
+Memory byte. Build,find:	116952	56
+Memory byte. Build,find:	117016	56
+Memory byte. Build,find:	116952	56
+Memory byte. Build,find:	116952	56
+Memory byte. Build,find:	116952	56
+Memory byte. Build,find:	116952	56
+Memory byte. Build,find:	116952	56
+Memory byte. Build,find:	116952	56
+Memory byte. Build,find:	116952	120
+
+Test 2. SimpleGraph (File storage,  58,6 Kb 60 000 byte in 100 files).
+Time ns. Build,find:	162277531	10435614
+Time ns. Build,find:	8771255	13335511
+Time ns. Build,find:	5638605	6762337
+Time ns. Build,find:	4981011	5503643
+Time ns. Build,find:	27260659	7623200
+Time ns. Build,find:	3673347	5008492
+Time ns. Build,find:	2584170	5704899
+Time ns. Build,find:	2353089	3490296
+Time ns. Build,find:	2619946	3759176
+Time ns. Build,find:	2908684	7696846
+Memory byte. Build,find:	870832	56
+Memory byte. Build,find:	870832	56
+Memory byte. Build,find:	30208	56
+Memory byte. Build,find:	30032	56
+Memory byte. Build,find:	30032	56
+Memory byte. Build,find:	30032	56
+Memory byte. Build,find:	30032	56
+Memory byte. Build,find:	30032	56
+Memory byte. Build,find:	30032	56
+Memory byte. Build,find:	30032	56
+
+Test 3. Hipster4J.
+Time ns. Build,find:	144247063	22756578
+Time ns. Build,find:	114940759	5139862
+Time ns. Build,find:	86893457	4113644
+Time ns. Build,find:	87451955	1721824
+Time ns. Build,find:	75076360	5173816
+Time ns. Build,find:	77467861	2131805
+Time ns. Build,find:	80172783	1597342
+Time ns. Build,find:	81086402	1735319
+Time ns. Build,find:	89098689	1459976
+Time ns. Build,find:	80132427	1367624
+Memory byte. Build,find:	2431456	664680
+Memory byte. Build,find:	2349416	747648
+Memory byte. Build,find:	2349416	747648
+Memory byte. Build,find:	2349416	747648
+Memory byte. Build,find:	2349416	747648
+Memory byte. Build,find:	2349416	747648
+Memory byte. Build,find:	2349416	747648
+Memory byte. Build,find:	2349416	747648
+Memory byte. Build,find:	2349416	747648
+Memory byte. Build,find:	2349416	747648
+Test 4. Guava.
+Time ns. Build,find:	93797400	1102
+Time ns. Build,find:	2350904	641
+Time ns. Build,find:	2330356	1012
+Time ns. Build,find:	3161132	1132
+Time ns. Build,find:	2339553	842
+Time ns. Build,find:	2825806	1303
+Time ns. Build,find:	2532542	2014
+Time ns. Build,find:	3921616	1553
+Time ns. Build,find:	2392561	1393
+Time ns. Build,find:	2725120	1473
+Memory byte. Build,find:	1600096	0
+Memory byte. Build,find:	1600104	0
+Memory byte. Build,find:	1539120	0
+Memory byte. Build,find:	1600096	0
+Memory byte. Build,find:	1416600	0
+Memory byte. Build,find:	914968	0
+Memory byte. Build,find:	914968	0
+Memory byte. Build,find:	976016	0
+Memory byte. Build,find:	914968	0
+Memory byte. Build,find:	976016	0
+Test 5. JGraphT.
+Time ns. Build,find:	46144110	10466234
+Time ns. Build,find:	6630046	1804197
+Time ns. Build,find:	9715105	1022042
+Time ns. Build,find:	5249336	805940
+Time ns. Build,find:	5418089	648197
+Time ns. Build,find:	3613684	558429
+Time ns. Build,find:	4789862	536658
+Time ns. Build,find:	4227195	534124
+Time ns. Build,find:	4253402	451741
+Time ns. Build,find:	6651145	407708
+Memory byte. Build,find:	2596864	0
+Memory byte. Build,find:	2596864	0
+Memory byte. Build,find:	2596864	0
+Memory byte. Build,find:	2596864	0
+Memory byte. Build,find:	2596864	0
+Memory byte. Build,find:	2596864	0
+Memory byte. Build,find:	2596864	0
+Memory byte. Build,find:	2596864	0
+Memory byte. Build,find:	2596864	0
+Memory byte. Build,find:	2596864	0
+BUILD SUCCESSFUL (total time: 3 seconds)
